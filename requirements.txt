@@ -3,3 +3,4 @@ opencv-python-headless
 tensorflow==2.6.0
 keras
 numpy
+Pillow
