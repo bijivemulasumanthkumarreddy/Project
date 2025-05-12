@@ -3,7 +3,8 @@ import cv2
 import numpy as np
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array
-from tensorflow.keras.models import model_from_json
+import tensorflow as tf
+from tensorflow.keras.models import Sequential, model_from_json  # <-- Explicitly import Sequential
 
 # Load the model architecture
 with open("emotion_model1.json", "r") as json_file:
