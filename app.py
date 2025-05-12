@@ -3,6 +3,22 @@ import cv2
 import numpy as np
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array
+from keras.models import model_from_json
+
+# Load architecture
+with open("emotion_model1.json", "r") as json_file:
+    model_json = json_file.read()
+
+model = model_from_json(model_json)
+
+# Load weights
+model.load_weights("emotion_model1.h5")
+
+# Compile model
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Emotion labels (based on your final Dense layer with 5 units)
+emotion_labels = ['Angry', 'Happy', 'Neutral', 'Sad', 'Surprise']  # Adjust if different
 
 # Load pre-trained emotion detection model
 model = load_model("emotion_model1.h5")
