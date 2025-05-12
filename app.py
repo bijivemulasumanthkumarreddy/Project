@@ -4,7 +4,7 @@ import streamlit as st
 from tensorflow import keras
 from keras.models import model_from_json
 from keras.preprocessing.image import img_to_array
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration, VideoProcessorBase, WebRtcMode
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 
 # load model
 emotion_dict = {0:'angry', 1 :'happy', 2: 'neutral', 3:'sad', 4: 'surprise'}
@@ -23,9 +23,7 @@ try:
 except Exception:
     st.write("Error loading cascade classifiers")
 
-RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
-
-class Faceemotion(VideoTransformerBase):
+class VideoTransformer(VideoTransformerBase):
     def transform(self, frame):
         img = frame.to_ndarray(format="bgr24")
 
@@ -53,11 +51,13 @@ class Faceemotion(VideoTransformerBase):
 
 def main():
     # Face Analysis Application #
-    st.title("Face Expression Detection")
+    st.title("Real Time Face Emotion Detection Application")
     activiteis = ["Home", "Webcam Face Detection", "About"]
     choice = st.sidebar.selectbox("Select Activity", activiteis)
     st.sidebar.markdown(
-        """ Developed by Sumanth Kumar Reddy Bijivemula""")
+        """ Developed by Mohammad Juned Khan    
+            Email : Mohammad.juned.z.khan@gmail.com  
+            [LinkedIn] (https://www.linkedin.com/in/md-juned-khan)""")
     if choice == "Home":
         html_temp_home1 = """<div style="background-color:#6D7B8D;padding:10px">
                                             <h4 style="color:white;text-align:center;">
@@ -76,8 +76,7 @@ def main():
     elif choice == "Webcam Face Detection":
         st.header("Webcam Live Feed")
         st.write("Click on start to use webcam and detect your face emotion")
-        webrtc_streamer(key="example", mode=WebRtcMode.SENDRECV, rtc_configuration=RTC_CONFIGURATION,
-                        video_processor_factory=Faceemotion)
+        webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
 
     elif choice == "About":
         st.subheader("About this app")
