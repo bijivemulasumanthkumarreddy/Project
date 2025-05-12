@@ -3,7 +3,20 @@ import cv2
 import numpy as np
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array
-from keras.models import model_from_json
+from tensorflow.keras.models import model_from_json
+
+# Load the model architecture
+with open("emotion_model1.json", "r") as json_file:
+    model_json = json_file.read()
+
+model = model_from_json(model_json)
+
+# Load the weights
+model.load_weights("emotion_model1.h5")
+
+# Compile the model
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
 
 # Load architecture
 with open("emotion_model1.json", "r") as json_file:
